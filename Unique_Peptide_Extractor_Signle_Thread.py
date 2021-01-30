@@ -16,22 +16,25 @@ def Unique_pep(infile, outfile, miss_cleave, min_len, max_len):
                 fasta = read_fasta_file.read_fasta(infile + '/' + list_file)
                 for rows in fasta:
                     seq = rows[1].rstrip()
-                    pep = tryptic_peptide.tryptic_peptide_trypsin(seq,int(miss_cleave),int(min_len),int(max_len))
-                    for i in pep:
+                    for iter_cleavage in range(miss_cleave + 1):
+                        pep = tryptic_peptide.tryptic_peptide_trypsin(seq,int(iter_cleavage),int(min_len),int(max_len))
+                        for i in pep:
                         #print (i, rows[0], protein_fasta_file)
-                        if 'C' in i:
-                            rm = i
-                        elif 'M' in i:
-                            rm = i
-                        elif 'X' in i:
-                            rm = i
-                        else:
-                            if i not in tryptic_pep:
-                                tryptic_pep[i] = [rows[0] + '\t' + list_file]
-
+                            if 'C' in i:
+                                rm = i
+                            elif 'M' in i:
+                                rm = i
+                            elif 'X' in i:
+                                rm = i
+                            elif 'Z' in i:
+                                rm = i
                             else:
-                                tryptic_pep[i].append(rows[0] + '\t' + list_file)
+                                if i not in tryptic_pep:
+                                    tryptic_pep[i] = [rows[0] + '\t' + f.split('/')[-1]]
 
+                                else:
+                                    tryptic_pep[i].append(rows[0] + '\t' + f.split('/')[-1])
+                            
     print ('Protein digestion by trypsin is complete and unique peptides are stored')
 
     for k, v in tryptic_pep.items():

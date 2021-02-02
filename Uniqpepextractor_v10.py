@@ -97,4 +97,4 @@ def Unique_pep(infile, outfile, miss_cleave, min_len, max_len):
 if __name__== "__main__":
     Unique_pep(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
 
-#path = 'python Unique_Peptide_Extractor_Single_Thread.py D:/Skyline/NTMs/ALL_Mycobcaterium_Species/ D:/Skyline/NTMs/NTMs_In_silico_Peptides/ 0 7 25'
+#path = 'python Uniqpepextractor_v10.py D:/Skyline/NTMs/ALL_Mycobcaterium_Species/ D:/Skyline/NTMs/NTMs_In_silico_Peptides/ 0 7 25'

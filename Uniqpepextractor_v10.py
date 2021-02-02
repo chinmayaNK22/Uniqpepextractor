@@ -1,4 +1,5 @@
 import os
+import os
 import read_fasta_file
 import tryptic_peptide
 import sys
@@ -37,16 +38,11 @@ def Unique_pep(infile, outfile, miss_cleave, min_len, max_len):
     for f in fasta_file:
         list_fasta[f.split('/')[-1]] = f.split('/')[-1]
         fasta = read_fasta_file.read_fasta(f)
-##    for list_file in os.listdir(infile):
-##        if os.path.isfile(infile + '/' + list_file):
-##            if list_file.split('.')[-1] == 'fasta':
-##                list_fasta[list_file] = list_file
-##                fasta = read_fasta_file.read_fasta(infile + '/' + list_file)
         for rows in fasta:
             seq = rows[1].rstrip()
             aa_count = amino_acids(seq)
             for iter_cleavage in range(int(miss_cleave) + 1):
-                pep = tryptic_peptide.tryptic_peptide_trypsin(seq,int(iter_cleavage),int(min_len),int(max_len))
+                pep = tryptic_peptide.tryptic_peptide_trypsin(seq,iter_cleavage,int(min_len),int(max_len))
                 for i in pep:
                 #print (i, rows[0], protein_fasta_file)
                     if 'C' in i:

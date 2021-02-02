@@ -85,7 +85,7 @@ def Unique_pep(infile, outfile, miss_cleave, min_len, max_len):
                                 path = outfile + '/' + list_folder
                                 #print (path + '/' + list_fasta[j.split('\t')[-1]].rstrip('.fasta') + '_' + 'Unique_Peptides.txt')
                                 #print (k + '\t' + j.split('\t')[0].split(' ')[0] + '\t' + j.split('\t')[0] + '\t' + str(len(k)) + '\t' + j.split('\t')[-1] + '\n')
-                                write1 = open(path + '/' + list_fasta[j.split('\t')[-1]].rstrip('.fasta') + '_Unique_Peptides_' + dt + '_.txt', 'a')
+                                write1 = open(path + '/' + list_fasta[j.split('\t')[-1]].rstrip('.fasta') + '_Unique_Peptides_' + dt + '.txt', 'a')
                                 write1.write(k + '\t' + j.split('\t')[0].split(' ')[0] + '\t' + j.split('\t')[0] + '\t' + str(len(k)) + '\t' + j.split('\t')[-1] + '\n')
 
                                 write1.close()

@@ -1,5 +1,4 @@
 import os
-import os
 import read_fasta_file
 import tryptic_peptide
 import sys
@@ -12,6 +11,17 @@ dt = today.strftime("%m%d%y")
 
 now = datetime.now()
 current_time = now.strftime("%H%M%S")
+
+def generate_folder(infile_path, outfile_path):           
+    for list_dir in os.listdir(infile_path):
+        if list_dir.split('.')[-1] == 'fasta':
+            InputFilePath = ''
+            ResultPath = ''
+            path = outfile_path + list_dir.split('.fasta')[0]
+            try:
+                out_file = os.makedirs(path)
+            except:
+                print ('Folder for ' + list_dir + ' has not generated.')
 
 aa_known = {}
 aa_unknown = {}
@@ -28,9 +38,7 @@ def amino_acids(AA_seq):
     for l, m in aa_unknown.items():
         #print (l)
         return l
-
-
-   
+ 
 def Unique_pep(infile, outfile, miss_cleave, min_len, max_len):
     tryptic_pep = {}
     list_fasta = {}
@@ -45,13 +53,13 @@ def Unique_pep(infile, outfile, miss_cleave, min_len, max_len):
                 pep = tryptic_peptide.tryptic_peptide_trypsin(seq,iter_cleavage,int(min_len),int(max_len))
                 for i in pep:
                 #print (i, rows[0], protein_fasta_file)
-                    if 'C' in i:
+                    if 'C' in i: #remove peptides having amino acid cysteine 
                         rm = i
-                    elif 'M' in i:
+                    elif 'M' in i: #remove peptides having amino acid methionine
                         rm = i
-                    elif 'X' in i:
+                    elif 'X' in i: #remove peptides having amino acid X
                         rm = i
-                    elif 'Z' in i:
+                    elif 'Z' in i: #remove peptides having amino acid Z
                         rm = i
                     else:
                         if i not in tryptic_pep:
@@ -62,14 +70,19 @@ def Unique_pep(infile, outfile, miss_cleave, min_len, max_len):
                             
     print ('Protein digestion by trypsin is complete and ' + str(len(tryptic_pep)) + ' unique peptides are stored')
     print ('Number of known amino acids found: ' + str(len(aa_known)))
-    print ('Number of unknown amino acids found: ' + str(len(aa_unknown)))
 
     for k, v in aa_known.items():
         print (k + '\t' + v.split('@')[0] + '\t' + v.split('@')[1])
 
+    print ('Number of unknown amino acids found: ' + str(len(aa_unknown)))
+    
     for l, m in aa_unknown.items():
         print (l)
 
+    generate_folder(infile, outfile) # Generate folders to store the species-specific output file
+    
+    print ('Species specific output folders are generated.')
+    
     for k, v in tryptic_pep.items():
         if len(v) == 1:
             for j in v:
@@ -93,4 +106,4 @@ def Unique_pep(infile, outfile, miss_cleave, min_len, max_len):
 if __name__== "__main__":
     Unique_pep(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
 
-#path = 'python Uniqpepextractor_v10.py D:/Skyline/NTMs/ALL_Mycobcaterium_Species/ D:/Skyline/NTMs/NTMs_In_silico_Peptides/ 0 7 25'
+#path = 'python Uniqpepextractor_v10.py Example_files/input_fasta Example_files/output 0 7 25'
